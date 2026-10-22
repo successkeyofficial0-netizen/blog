@@ -26,7 +26,7 @@ Append-only execution log. Do not rewrite earlier runs.
 | TC-011 | pass   | see E2E log below |
 | TC-012 | pass   | see E2E log below |
 | TC-013 | pass   | see E2E log below |
-| TC-014 | pending | deployment not run yet |
+| TC-014 | pass   | deployed smoke test: 9 cards, featured, Sign up, /explore, 0 errors |
 
 ## E2E browser run
 
@@ -97,18 +97,23 @@ Append-only execution log. Do not rewrite earlier runs.
 
 ## Deployment
 
-- Date: pending
-- Commit: pending
+- Date: 2026-10-22 11:03
+- Commit: 990c6ee (feature), deployed tree 669582b
 - Command: `firebase deploy --only hosting --project bloging-4fc47`
-- URL: pending
-- Verification: pending (TC-014)
-- Result: pending
+- URL: https://bloging-4fc47.web.app
+- Verification (TC-014):
+  - homepage: 9 `.post-card` + 1 featured
+  - header: `Sign up` → `/register`
+  - deep link: `https://bloging-4fc47.web.app/explore` loads `/explore`
+  - console errors: 0
+- Result: success (13 files uploaded, release complete)
+- Mode: demo backend (no `VITE_FIREBASE_*` at build time); no rules, indexes, or Storage deployed
 
 ## Final status
 
-- Passed: TC-001 to TC-013
+- Passed: TC-001 to TC-014
 - Deferred: none
 - Blocked: none
 - Build: `npm run build` passed
 - Branch pushed: no
-- Deployment: pending
+- Deployment: https://bloging-4fc47.web.app
