@@ -109,6 +109,15 @@ Append-only execution log. Do not rewrite earlier runs.
 - Result: success (13 files uploaded, release complete)
 - Mode: demo backend (no `VITE_FIREBASE_*` at build time); no rules, indexes, or Storage deployed
 
+## Merge
+
+- Date: 2026-10-22 11:06
+- Target: main
+- Command: `git merge --ff-only feature/homepage-10-posts`
+- Main HEAD: e306dd7
+- Post-merge tests: `npm test` 12/12 passed; `npm run build` passed
+- Pushed: no
+
 ## Final status
 
 - Passed: TC-001 to TC-014
@@ -117,3 +126,4 @@ Append-only execution log. Do not rewrite earlier runs.
 - Build: `npm run build` passed
 - Branch pushed: no
 - Deployment: https://bloging-4fc47.web.app
+- Merged to main: yes (e306dd7)
