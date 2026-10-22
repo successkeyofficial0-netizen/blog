@@ -1,0 +1,75 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────
+//  Inkwell — Firestore security rules
+//  Deploy with:  firebase deploy --only firestore:rules
+// ─────────────────────────────────────────────────────────────
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(data) {
+      return signedIn() && data.authorId == request.auth.uid;
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // A like must add or remove exactly the caller's uid and move the
+    // counter in the matching direction. No self-inflating the count.
+    function validLikeToggle() {
+      let before = resource.data.likedBy;
+      let after = request.resource.data.likedBy;
+      let added = after.toSet().difference(before.toSet());
+      let removed = before.toSet().difference(after.toSet());
+      let delta = request.resource.data.likes - resource.data.likes;
+
+      return (added.hasOnly([request.auth.uid]) && removed.size() == 0 && delta == 1)
+             || (removed.hasOnly([request.auth.uid]) && added.size() == 0 && delta == -1);
+    }
+
+    // Published posts are public. Drafts are only readable by their author.
+    match /posts/{postId} {
+      allow read: if resource.data.status == 'published'
+                  || isOwner(resource.data);
+
+      // A post must always be created under the signed-in user's uid.
+      allow create: if signedIn()
+                    && request.resource.data.authorId == request.auth.uid
+                    && request.resource.data.title is string
+                    && request.resource.data.content is string
+                    && request.resource.data.status in ['draft', 'published'];
+
+      // Authors can edit everything (except reassigning the post).
+      // Signed-in readers may otherwise only change engagement fields:
+      // one view per write, or a like/unlike of their own uid.
+      allow update: if (isOwner(resource.data)
+                        && request.resource.data.authorId == resource.data.authorId)
+                    || (resource.data.status == 'published'
+                        && changedKeys().hasOnly(['views'])
+                        && request.resource.data.views == resource.data.views + 1)
+                    || (signedIn()
+                        && resource.data.status == 'published'
+                        && changedKeys().hasOnly(['likes', 'likedBy'])
+                        && validLikeToggle());
+
+      // Only the author may delete their post.
+      allow delete: if isOwner(resource.data);
+    }
+
+    // Minimal public author profiles (optional, used by future features).
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.auth.uid == userId;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
