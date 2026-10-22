@@ -57,6 +57,15 @@ Append-only execution log. Do not rewrite earlier runs. Never edit `test-cases.m
 - Verification: playwright-cli smoke — homepage, 10 posts, Sign up, deep link, console errors
 - Result: <success / failed with exact error>
 
+## Merge
+
+- Date: <YYYY-MM-DD HH:mm>
+- Target: main
+- Command: `git merge --ff-only feature/<feature-name>`
+- Main HEAD: <short sha>
+- Post-merge tests: <passed / failed>
+- Pushed: no
+
 ## Final status
 
 - Passed: <ids>

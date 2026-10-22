@@ -20,7 +20,8 @@ order. Phases 1–3 are conversation, phase 4 is git and documents, phase 5 is a
 - Deploy only after every approved test passes and `npm run build` succeeds, and only when the
   approved requirement includes release. The only deployment target is Firebase Hosting project
   `bloging-4fc47`.
-- Never push, merge, rebase, force-push, or delete branches. Leave the branch local.
+- Never push, rebase, force-push, or delete branches. Merging to `main` is allowed only after a
+  verified deployment and an explicit user request (Phase 7). Keep everything local.
 - Run every approved `e2e` case in a real browser through the `playwright-cli` skill. Never mark an
   E2E case green from code inspection or a component test.
 - Never stash or discard the user's uncommitted work.
@@ -197,6 +198,24 @@ Hosting project `bloging-4fc47`.
 
 If the deploy fails (auth, permissions, quota), report the exact error and stop after two attempts.
 Leave the green, built branch ready for a retry; do not switch to another host.
+
+## Phase 7 — Merge to main
+
+Run this phase only when Phase 6 succeeded and the user explicitly asks to merge. Never merge a
+branch that failed tests, failed the build, or was not deployed.
+
+1. Confirm the working tree is clean (`git status --short`). If not, stop and ask.
+2. `git switch main` and confirm it is the intended base branch.
+3. Merge with `git merge --ff-only feature/<feature-name>`. If fast-forward is impossible because
+   `main` moved, stop and ask whether to use a merge commit. Never rebase or force.
+4. Re-run `npm test` and `npm run build` on `main`. Both must pass.
+5. Record the merge in `RFP/<feature>/results.md`: date, command, `main` HEAD, post-merge test
+   result. Commit that record on `main`.
+6. Do not push, do not delete the feature branch, and do not redeploy. The deployed build is
+   unchanged by documentation-only commits.
+
+If `main` has diverged and the user approves a merge commit, use `git merge --no-ff` and resolve
+conflicts by hand; stop if the resolution changes behavior that is not covered by the approved tests.
 
 ## Reference files
 
