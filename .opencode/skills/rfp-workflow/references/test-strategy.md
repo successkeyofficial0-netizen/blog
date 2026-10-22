@@ -181,6 +181,16 @@ A case passes only when the expected observation is present in the snapshot, `fi
 screenshot helps, save it under `RFP/<feature>/evidence/` and reference the path; keep the folder
 small.
 
+## Post-deploy verification
+
+After a successful deploy, load the live URL with `playwright-cli` and repeat a short smoke pass:
+
+- homepage renders, with the expected post count and header actions
+- one deep link loads through the SPA rewrite
+- `console error` is clean
+
+Record the URL, commit, and smoke result in `RFP/<feature>/results.md`.
+
 ## Mocking rules
 
 - Mock at the backend boundary (`src/lib/backend.js`), not inside components. `vi.mock('../lib/backend')`

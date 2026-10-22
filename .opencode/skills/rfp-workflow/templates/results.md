@@ -48,6 +48,15 @@ Append-only execution log. Do not rewrite earlier runs. Never edit `test-cases.m
 - Result: pass
 - Full suite: `npx vitest run` — <passed>/<total>
 
+## Deployment
+
+- Date: <YYYY-MM-DD HH:mm>
+- Commit: <short sha>
+- Command: `firebase deploy --only hosting --project bloging-4fc47`
+- URL: <hosting url>
+- Verification: playwright-cli smoke — homepage, 10 posts, Sign up, deep link, console errors
+- Result: <success / failed with exact error>
+
 ## Final status
 
 - Passed: <ids>

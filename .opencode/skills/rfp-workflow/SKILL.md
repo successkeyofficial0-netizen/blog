@@ -17,9 +17,10 @@ order. Phases 1–3 are conversation, phase 4 is git and documents, phase 5 is a
 - Never write production code before the Phase 3 approval.
 - Never edit approved acceptance criteria, delete tests, skip tests, loosen assertions, or hardcode
   values to make a test pass.
+- Deploy only after every approved test passes and `npm run build` succeeds, and only when the
+  approved requirement includes release. The only deployment target is Firebase Hosting project
+  `bloging-4fc47`.
 - Never push, merge, rebase, force-push, or delete branches. Leave the branch local.
-- Never deploy, even when all tests pass. Deployment is a separate request and targets Firebase
-  project `bloging-4fc47`.
 - Run every approved `e2e` case in a real browser through the `playwright-cli` skill. Never mark an
   E2E case green from code inspection or a component test.
 - Never stash or discard the user's uncommitted work.
@@ -171,7 +172,31 @@ Final report:
 - case-by-case result table (pass, fail, deferred)
 - commits made and files touched
 - residual risks and follow-ups
-- explicit note that the branch remains local and unpushed, and that nothing was deployed
+- explicit note that the branch remains local and unpushed; when Phase 6 ran, include the hosting URL
+  and the deployed commit
+
+## Phase 6 — Deploy to Firebase Hosting
+
+Run this phase when the approved requirement includes release. The target is always Firebase
+Hosting project `bloging-4fc47`.
+
+1. Confirm tooling and access: `firebase --version`, `firebase login:list`, and that
+   `bloging-4fc47` is reachable (`firebase projects:list`). If authentication is missing, stop and
+   give the user the exact `firebase login` command. Do not guess credentials or use another project.
+2. Re-run the full unit suite and `npm run build`. Never deploy from a red or stale tree.
+3. Deploy hosting only:
+   `firebase deploy --only hosting --project bloging-4fc47`.
+   Do not deploy Firestore rules, Storage rules, indexes, or functions unless the approved
+   requirement explicitly says so.
+4. Verify the live site with `playwright-cli`: load the hosting URL, check the homepage renders 10
+   posts and Sign up, open the browser console for errors, and load one deep link to prove the SPA
+   rewrite works.
+5. Record the deployment in `results.md`: date, commit, command, hosting URL, verification result.
+6. Report the live URL and the deployed commit in the final summary. Keep the branch local and
+   unpushed.
+
+If the deploy fails (auth, permissions, quota), report the exact error and stop after two attempts.
+Leave the green, built branch ready for a retry; do not switch to another host.
 
 ## Reference files
 

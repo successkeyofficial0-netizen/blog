@@ -39,8 +39,8 @@ Describe the flow, copy, states, and transitions. Include loading, empty, error,
   query or index needs.
 - **Storage:** paths, allowed types, size limits, read access, and what happens to replaced files.
 - **Rules:** required `firestore.rules` and `storage.rules` changes; default deny.
-- **Deployment:** Firebase Hosting impact, env vars, seed or migration steps. Project is
-  `bloging-4fc47` and deployment happens only on explicit request.
+- **Deployment:** Firebase Hosting, project `bloging-4fc47`. Deploy after every test and the build
+  pass when release is in scope; hosting only unless rules changes are approved.
 
 ## Auth and permissions
 

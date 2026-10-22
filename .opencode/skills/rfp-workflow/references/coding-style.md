@@ -129,9 +129,12 @@ Do not add unused imports. Do not introduce path aliases; relative paths are the
 
 ## Deployment
 
-- Deploy only when the user explicitly asks. `npm run deploy` builds and then runs `firebase deploy`.
-  Without a local `.firebaserc`, pass the project: `firebase deploy --only hosting --project
-  bloging-4fc47`.
+- Deploy when the approved requirement includes release, and only after the full suite and
+  `npm run build` pass. Target project `bloging-4fc47`.
+- Prefer `firebase deploy --only hosting --project bloging-4fc47`. `npm run deploy` runs a full
+  `firebase deploy` (hosting plus the configured Firestore rules and indexes), so use it only when
+  those are approved too.
+- Verify the live URL with `playwright-cli` after deploying.
 - Hosting target: project `bloging-4fc47`, `public: "dist"`, SPA rewrite to `/index.html`.
 - Environment values are baked in at build time. Only public `VITE_*` values belong in the bundle;
   never ship admin credentials or service accounts, and never commit `.env.local`.
