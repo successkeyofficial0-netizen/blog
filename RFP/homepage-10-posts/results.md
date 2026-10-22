@@ -118,12 +118,21 @@ Append-only execution log. Do not rewrite earlier runs.
 - Post-merge tests: `npm test` 12/12 passed; `npm run build` passed
 - Pushed: no
 
+## Publish
+
+- Remote: https://github.com/successkeyofficial0-netizen/blog.git (`origin`)
+- Branch: main
+- Command: `git push -u origin main`
+- Pushed commit: 57a68a5
+- Verification: `origin/main` == local `HEAD`; no ahead/behind
+- Result: success
+
 ## Final status
 
 - Passed: TC-001 to TC-014
 - Deferred: none
 - Blocked: none
 - Build: `npm run build` passed
-- Branch pushed: no
+- Branch pushed: yes — `origin/main` at 57a68a5
 - Deployment: https://bloging-4fc47.web.app
 - Merged to main: yes (e306dd7)
