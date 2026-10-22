@@ -146,8 +146,8 @@ export default function Navbar() {
               <Link to="/login" className="btn btn-ghost nav-signin">
                 Sign in
               </Link>
-              <Link to="/write" className="btn btn-primary btn-sm nav-cta">
-                Start writing <Icon name="arrowUpRight" size={15} />
+              <Link to="/register" className="btn btn-primary btn-sm nav-cta">
+                Sign up <Icon name="arrowUpRight" size={15} />
               </Link>
             </>
           )}
@@ -197,7 +197,7 @@ export default function Navbar() {
                 Sign in
               </Link>
               <Link to="/register" className="btn btn-primary btn-block">
-                Create an account
+                Sign up
               </Link>
             </div>
           )}

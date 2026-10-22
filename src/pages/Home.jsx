@@ -23,7 +23,7 @@ export default function Home() {
   )
 
   const featured = sorted[0]
-  const latest = sorted.slice(1, 7)
+  const latest = sorted.slice(1, 10)
   const tags = useMemo(() => topTags(posts, 6), [posts])
   const usedCategories = useMemo(
     () => CATEGORIES.filter((category) => posts.some((post) => post.category === category)),
