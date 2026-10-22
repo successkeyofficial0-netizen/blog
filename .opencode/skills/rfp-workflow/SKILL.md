@@ -20,8 +20,8 @@ order. Phases 1–3 are conversation, phase 4 is git and documents, phase 5 is a
 - Deploy only after every approved test passes and `npm run build` succeeds, and only when the
   approved requirement includes release. The only deployment target is Firebase Hosting project
   `bloging-4fc47`.
-- Never push, rebase, force-push, or delete branches. Merging to `main` is allowed only after a
-  verified deployment and an explicit user request (Phase 7). Keep everything local.
+- Never rebase, force-push, or delete branches. Merge to `main` only after a verified deployment and
+  an explicit user request (Phase 7). Push only when the user explicitly asks (Phase 8).
 - Run every approved `e2e` case in a real browser through the `playwright-cli` skill. Never mark an
   E2E case green from code inspection or a component test.
 - Never stash or discard the user's uncommitted work.
@@ -216,6 +216,21 @@ branch that failed tests, failed the build, or was not deployed.
 
 If `main` has diverged and the user approves a merge commit, use `git merge --no-ff` and resolve
 conflicts by hand; stop if the resolution changes behavior that is not covered by the approved tests.
+
+## Phase 8 — Publish to the remote
+
+Run this phase only when the user explicitly provides or confirms a remote and asks to push.
+
+1. Verify the remote with `git remote -v`. If `origin` is missing, add exactly the URL the user gave
+   (keep the `.git` suffix).
+2. Confirm what to publish. The default is the base branch (`main`) only; never push a feature branch
+   unless the user asks for it.
+3. Push and set upstream: `git push -u origin main`.
+4. Verify: `git status --short --branch` shows no ahead/behind markers, and
+   `git log --oneline -1 origin/main` matches local `HEAD`.
+5. Record the remote URL, branch, and commit in `RFP/<feature>/results.md`.
+6. Never force-push. If the remote rejects a non-fast-forward push, stop and report; do not pull with
+   rebase and do not force.
 
 ## Reference files
 
