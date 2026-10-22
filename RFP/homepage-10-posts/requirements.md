@@ -32,12 +32,13 @@ Success: one featured story plus nine cards, and a working Sign up link on deskt
 - `src/components/Navbar.jsx`: guest Sign up action, mobile copy.
 - `src/lib/seed.js`: five additional published demo posts.
 - Component, unit, and E2E tests for the above.
+- Deployment to Firebase Hosting after all tests and the build pass.
 
 ### Out of scope
 
 - Visual redesign, new routes, pagination or "load more".
 - Real content migration or production data changes.
-- Auth logic changes, Firestore rules, Storage, deployment.
+- Auth logic changes, Firestore rules, and Storage.
 
 ## UX and behavior
 
@@ -57,8 +58,8 @@ Success: one featured story plus nine cards, and a working Sign up link on deskt
   indexes, or rules.
 - **Storage:** not used by this feature.
 - **Seed:** `src/lib/seed.js` grows to 10 published posts; the existing draft stays.
-- **Deployment:** no `firebase.json` change. Deployment is out of scope and requires a separate
-  request.
+- **Deployment:** required once every test and the build pass. Hosting only:
+  `firebase deploy --only hosting --project bloging-4fc47`. No `firebase.json` change.
 
 ## Auth and permissions
 
@@ -114,10 +115,13 @@ affected.
 - [ ] **AC-7** — Loading skeletons and the error panel still behave as today.
 - [ ] **AC-8** — Sign up is keyboard-reachable with visible focus; the 10-card grid has no horizontal
       overflow at 390 px.
+- [ ] **AC-9** — After all tests and `npm run build` pass, the site deploys to Firebase Hosting
+      project `bloging-4fc47`, and the live URL serves the updated homepage with 10 posts and Sign up.
 
 ## Approval
 
 - Approved by: project owner
 - Approved on: 2026-10-22
-- Notes: approved via chat after requirements, test coverage, and setup review. Branch local only;
-  nothing pushed or deployed.
+- Notes: approved via chat after requirements, test coverage, and setup review. Branch local only.
+- Amendment 2026-10-22: deployment added to scope (AC-9) at the user's request; all other criteria
+  unchanged. Deploy hosting only, after green.

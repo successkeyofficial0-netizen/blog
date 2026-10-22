@@ -19,6 +19,7 @@ Every acceptance criterion maps to at least one case. Cases are deterministic an
 | TC-011 | AC-1/AC-5 | e2e      | P0       | Browser: homepage shows 10 posts       |
 | TC-012 | AC-2     | e2e      | P0       | Browser: Sign up opens register        |
 | TC-013 | AC-4/AC-8 | e2e      | P1       | Browser: 390 px menu and overflow      |
+| TC-014 | AC-9     | e2e      | P0       | Deployed site smoke test               |
 
 ## TC-001 — Demo seed integrity
 
@@ -188,6 +189,25 @@ Every acceptance criterion maps to at least one case. Cases are deterministic an
   5. `eval "document.documentElement.scrollWidth <= window.innerWidth"`
 - **Expected result:** pathname `/register`; horizontal-overflow check `true`.
 - **Evidence:** pathname and boolean output.
+
+## TC-014 — Deployed site smoke test
+
+- **AC:** AC-9
+- **Layer:** e2e
+- **Priority:** P0
+- **Preconditions:** TC-001 to TC-013 pass; `npm run build` passes; `firebase` CLI authenticated and
+  able to reach project `bloging-4fc47`
+- **Steps:**
+  1. `firebase deploy --only hosting --project bloging-4fc47`
+  2. `playwright-cli -s=rfp-homepage-10-posts open <hosting url>`
+  3. `eval "document.querySelectorAll('.post-card').length"`
+  4. `find "Sign up"`
+  5. `goto <hosting url>/explore`, then `eval "location.pathname"`
+  6. `console error`
+- **Expected result:** deploy succeeds and prints the hosting URL; 9 cards + 1 featured; Sign up
+  present; the deep link loads `/explore` through the SPA rewrite; no unexpected console errors.
+- **Evidence:** deploy output (URL + release), eval outputs, and console result recorded in
+  `results.md`.
 
 ## Deliberately not covered
 

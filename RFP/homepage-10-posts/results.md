@@ -25,6 +25,7 @@ Append-only execution log. Do not rewrite earlier runs.
 | TC-011 | pending |          |
 | TC-012 | pending |          |
 | TC-013 | pending |          |
+| TC-014 | pending | deployed smoke test |
 
 ## E2E browser run
 
@@ -37,6 +38,15 @@ Append-only execution log. Do not rewrite earlier runs.
 ## Cycle log
 
 _Appended during Phase 5._
+
+## Deployment
+
+- Date: pending
+- Commit: pending
+- Command: `firebase deploy --only hosting --project bloging-4fc47`
+- URL: pending
+- Verification: pending (TC-014)
+- Result: pending
 
 ## Final status
 
